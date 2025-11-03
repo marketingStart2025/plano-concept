@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos de Internet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #222222;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .container-planos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            padding: 5vh 20px;
+            box-sizing: border-box;
+        }
+
+        .card-plano {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-plano:hover {
+            border-color: #000000;
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-plano a {
+            text-decoration: none;
+        }
+
+        .card-plano .link-wrapper {
+            margin-top: auto;
+        }
+
+        .card-content {
+            flex-grow: 1;
+            /* Removido width e height fixos */
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+            /* Reduzido o espaçamento */
+            margin-bottom: 15px;
+            /* Reduzido o espaçamento */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-plano .banner-destaque {
+            position: absolute;
+            top: 22px;
+            right: -42px;
+            background-color: #51ffb4;
+            color: #222222;
+            transform: rotate(45deg);
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+            width: 160px;
+            padding: 6px 0;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .wifi-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            transform: rotate(320deg);
+        }
+
+        .wifi-icon img {
+            width: 25px;
+            height: 21px;
+            display: block;
+        }
+
+        .card-plano .header-plano {
+            margin-top: 45px;
+            /* Reduzido o espaçamento */
+        }
+
+        .card-plano .nome-plano {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222222;
+            margin: 0;
+        }
+
+        .card-plano .velocidade-plano {
+            font-size: 60px;
+            font-weight: 700;
+            color: #51ffb4;
+            border: none;
+        }
+
+        .card-plano .velocidade-plano span {
+            font-size: 24px;
+            font-weight: 600;
+            color: #222222;
+        }
+
+        .card-plano .lista-servicos {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            color: #222222;
+            font-size: 15px;
+        }
+
+        .card-plano .lista-servicos li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .card-plano .lista-servicos li:first-child {
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .servicos-adicionais {
+            margin-top: auto;
+            /* Empurra para o final do card-content */
+            padding-top: 15px;
+            /* Reduzido o espaçamento */
+            text-align: left;
+        }
+
+        .servicos-adicionais-titulo {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6C757D;
+            margin: 0 0 15px 0;
+        }
+
+        .logos-container {
+            display: flex;
+            gap: 12.5px;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .logo-wrapper {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-wrapper img {
+            height: 40px;
+            width: auto;
+        }
+
+        .link-mais-info {
+            display: block;
+            margin-top: 5px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #6C757D;
+            text-decoration: underline;
+        }
+
+        .preco-original {
+            font-size: 16px;
+            color: #888888;
+            font-weight: 400;
+            height: 24px;
+        }
+
+        .preco-principal {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 5px;
+            color: #51ffb4;
+        }
+
+        .preco-principal .simbolo {
+            display: none;
+        }
+
+        .preco-principal .valor-destaque {
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .card-plano .nota-preco {
+            /* Estilo para o novo texto */
+            width: 200px;
+            font-size: 12px;
+            color: #6C757D;
+            margin: 0 auto 15px;
+            /* Reduzido o espaçamento inferior */
+            min-height: 1.8em;
+            /* Ajustado para melhor alinhamento com 2 linhas */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-plano .botao-assinar {
+            background-color: #51ffb4;
+            color: #222222;
+            border: none;
+            border-radius: 12px;
+            padding: 18px 0;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card-plano .botao-assinar:hover {
+            background-color: #4adc9a;
+        }
+
+        @media (max-width: 1024px) {
+            .container-planos {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                padding-left: calc(50% - 160px);
+                padding-right: calc(50% - 160px);
+            }
+
+            .container-planos::-webkit-scrollbar {
+                display: none;
+            }
+
+            .card-plano {
+                flex: 0 0 320px;
+                scroll-snap-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-planos">
+
+        <div class="card-plano">
+            <div class="banner-destaque">oferta</div>
+            <div class="wifi-icon">
+                <img src="https://i.postimg.cc/1twB5NTz/wifi-icon.png" alt="wifi-icon">
+            </div>
+            <div class="card-content">
+                <div class="header-plano">
+                    <p class="nome-plano">PLANO FULL CONCEPT</p>
+                    <h2 class="velocidade-plano">400 <span>Mega</span></h2>
+                </div>
+                <!-- Lista de serviços principais -->
+                <ul class="lista-servicos">
+                    <li>Velocidade Garantida</li>
+                    <li>Ligações Ilimitadas</li>
+                </ul>
+                <!-- Seção de serviços adicionais -->
+                <div class="servicos-adicionais">
+                    <p class="servicos-adicionais-titulo">Serviços adicionais</p>
+                    <div class="logos-container">
+                        <div class="logo-wrapper">
+                            <img src="https://i.imgur.com/XlmQ1dh.png" alt="Logo Serviço Adicional">
+                        </div>
+                        <div class="logo-wrapper">
+                            <img src="https://www.campsoft.com.br/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FSky%2520%252B%2520Light.png&w=384&q=75"
+                                alt="Logo Serviço Adicional">
+                        </div>
+                    </div>
+                    <a href="https://sonictelecom.com.br/configurar-pedido/" class="link-mais-info">Mais informações</a>
+                </div>
+            </div>
+
+            <div class="preco-plano">
+                <div class="preco-original"><s>R$ 99,90/mês</s></div>
+                <div class="preco-principal">
+                    <span class="simbolo">R$</span>
+                    <span class="valor-destaque">89,90</span>
+                </div>
+            </div>
+            <p class="nota-preco">Valor do plano por 12 meses com débito automático.</p>
+            <a href="https://sonictelecom.com.br/configurar-pedido/" target="_blank" rel="noopener noreferrer" class="link-wrapper">
+                <button class="botao-assinar">Contrate agora</button>
+            </a>
+        </div>
+
+        <div class="card-plano recomendado">
+            <div class="banner-destaque">Mais vendido</div>
+            <div class="wifi-icon">
+                <img src="https://i.postimg.cc/1twB5NTz/wifi-icon.png" alt="wifi-icon">
+            </div>
+            <div class="card-content">
+                <div class="header-plano">
+                    <p class="nome-plano">PLANO FULL EXPERIENCE</p>
+                    <h2 class="velocidade-plano">700 <span>Mega</span></h2>
+                </div>
+                <!-- Lista de serviços principais -->
+                <ul class="lista-servicos">
+                    <li>Velocidade Garantida</li>
+                    <li>Ligações Ilimitadas</li>
+                </ul>
+                <!-- Seção de serviços adicionais -->
+                <div class="servicos-adicionais">
+                    <p class="servicos-adicionais-titulo">Serviços adicionais</p>
+                    <div class="logos-container">
+                        <div class="logo-wrapper">
+                            <img src="https://i.imgur.com/XlmQ1dh.png" alt="Logo Serviço Adicional">
+                        </div>
+                        <div class="logo-wrapper">
+                            <img src="https://www.campsoft.com.br/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FSky%2520%252B%2520Light.png&w=384&q=75"
+                                alt="Logo Serviço Adicional">
+                        </div>
+                    </div>
+                    <a href="https://sonictelecom.com.br/configurar-pedido/" class="link-mais-info">Mais informações</a>
+                </div>
+            </div>
+
+            <div class="preco-plano">
+                <div class="preco-original"><s>R$ 129,90/mês</s></div>
+                <div class="preco-principal">
+                    <span class="simbolo">R$</span>
+                    <span class="valor-destaque">109,90</span>
+                </div>
+            </div>
+            <p class="nota-preco">Valor do plano por 12 meses com débito automático.</p>
+            <a href="https://sonictelecom.com.br/configurar-pedido/" target="_blank" rel="noopener noreferrer"
+                class="link-wrapper">
+                <button class="botao-assinar">Contrate agora</button>
+            </a>
+        </div>
+
+        <div class="card-plano">
+            <div class="banner-destaque">oferta</div>
+            <div class="wifi-icon">
+                <img src="https://i.postimg.cc/1twB5NTz/wifi-icon.png" alt="wifi-icon">
+            </div>
+            <div class="card-content">
+                <div class="header-plano">
+                    <p class="nome-plano">PLANO FULL PREMIUM</p>
+                    <h2 class="velocidade-plano">1000 <span>Mega</span></h2>
+                </div>
+                <!-- Lista de serviços principais -->
+                <ul class="lista-servicos">
+                    <li>Velocidade Garantida</li>
+                    <li>Ligações Ilimitadas</li>
+                </ul>
+                <!-- Seção de serviços adicionais -->
+                <div class="servicos-adicionais">
+                    <p class="servicos-adicionais-titulo">Serviços adicionais</p>
+                    <div class="logos-container">
+                        <div class="logo-wrapper">
+                            <img src="https://i.imgur.com/XlmQ1dh.png" alt="Logo Serviço Adicional">
+                        </div>
+                        <div class="logo-wrapper">
+                            <img src="https://www.campsoft.com.br/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FSky%2520%252B%2520Light.png&w=384&q=75"
+                                alt="Logo Serviço Adicional">
+                        </div>
+                    </div>
+                    <a href="https://sonictelecom.com.br/configurar-pedido/" class="link-mais-info">Mais informações</a>
+                </div>
+            </div>
+
+            <!-- Estrutura do preço e botão corrigida -->
+            <div class="preco-plano">
+                <div class="preco-original"><s>R$ 149,90/mês</s></div>
+                <div class="preco-principal">
+                    <span class="simbolo">R$</span>
+                    <span class="valor-destaque">129,90</span>
+                </div>
+            </div>
+            <p class="nota-preco">Valor do plano por 12 meses com débito automático.</p>
+            <a href="https://sonictelecom.com.br/configurar-pedido/" target="_blank" rel="noopener noreferrer" class="link-wrapper">
+                <button class="botao-assinar">Contrate agora</button>
+            </a>
+        </div>
+    </div>
+
+</body>
+
+</html>
